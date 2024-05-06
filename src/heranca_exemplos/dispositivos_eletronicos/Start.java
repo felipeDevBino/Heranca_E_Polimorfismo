@@ -20,6 +20,24 @@ public class Start {
 		lenovo.imprimeInformacoes();
 		lenovo.retornaInformacoesIntegradas(true, true, true, true);
 		
+		Smartphone samsung = new Smartphone();
+		samsung.dispositivosEmQuestao("Samsung", "Galaxy S24");
+		samsung.defineEspecificacoes(6.7, 8);
+		
+		System.out.println();
+		
+		samsung.imprimeInformacoes();
+		samsung.retornaFuncoesEspeciais(true, true, true, true, false);
+		
+		Smartphone motorola = new Smartphone();
+		motorola.dispositivosEmQuestao("Motorola", "Moto G32");
+		motorola.defineEspecificacoes(6.5, 8);
+		
+		System.out.println();
+		
+		motorola.imprimeInformacoes();
+		motorola.retornaFuncoesEspeciais(true, true, false, false, true);
+		
 	}
 	
 }

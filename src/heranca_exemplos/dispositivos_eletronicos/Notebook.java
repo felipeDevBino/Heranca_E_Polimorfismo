@@ -4,7 +4,7 @@ public class Notebook extends Base {
 
 	public void retornaInformacoesIntegradas(boolean tecladoDeMembrana, boolean tecladoMecanico, boolean tecladoRetroIluminado,
 			boolean teclaDeClickNoTouch) {
-		if (tecladoMecanico || tecladoRetroIluminado || teclaDeClickNoTouch) {
+		if (tecladoDeMembrana || tecladoMecanico || tecladoRetroIluminado || teclaDeClickNoTouch) {
 			System.out.println("O Notebook " + nomeDoDispositivo + " da " + marcaDoDispositivo
 					+ " possui os seguintes acessórios integrados: ");
 			
