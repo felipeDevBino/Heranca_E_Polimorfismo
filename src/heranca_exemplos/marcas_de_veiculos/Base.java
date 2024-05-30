@@ -1,106 +1,172 @@
 package heranca_exemplos.marcas_de_veiculos;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 
 public class Base {
 
-	public static Scanner scanner = new Scanner(System.in);
-	protected String marca;
+	private Scanner scanner;
+	protected String nomeDaMarcaOriginal, nomeDaMarca;
 	protected String nome;
 	protected String tipoDeVeiculo;
-	protected int quantidadeDePortas;
-	protected int quantidadeDeRodas;
-	public static int veiculoEmOrdem = 0;
-	protected List<String> veiculosEsquematizados = new ArrayList<String>();
-	protected List<String> veiculosConstruidos = new ArrayList<String>();
-	protected Map<String, String> concessionarias = new HashMap<String, String>();
-	private int quantidadeDeMateriaisDisponiveis = 30, materiais = 8;
 
-	public void esquematizaModelo(String marca, String nome, String tipoDeVeiculo, int quantidadeDePortas,
-			int quantidadeDeRodas) {
-		this.tipoDeVeiculo = tipoDeVeiculo;
-		this.quantidadeDePortas = quantidadeDePortas;
-		this.quantidadeDeRodas = quantidadeDeRodas;
-		this.marca = marca;
-		this.nome = nome;
+	protected int kmPorLitro;
+	protected int velocidade;
+	protected int valor;
+	protected int fimDoNomeDaMarca;
 
-		veiculosEsquematizados.add(Base.veiculoEmOrdem,
-				"Marca: " + marca + "\nNome: " + nome + "\nTipo de Veículo: " + tipoDeVeiculo
-						+ "\nQuantidade de Portas: " + quantidadeDePortas + "\nQuantidade de Rodas: "
-						+ quantidadeDeRodas);
+	protected List<String> veiculos;
+	protected List<String> concessionarias;
+	protected List<String> preDefinidos;
 
+	public Base() {
+		scanner = new Scanner(System.in);
+		veiculos = new ArrayList<>();
+		concessionarias = new ArrayList<>();
+		preDefinidos = new ArrayList<>();
 	}
 
-	public void getMateriais(int quantidadeDePortas, int quantidadeDeRodas) {
-		boolean insuficiente = false;
+	public void criaVeiculo(String pMarca, String pNome, String pTipoDeVeiculo, int pKmPorLitro, int pVelocidade,
+			int pValor) {
+		nomeDaMarca = pMarca;
+		nome = pNome;
+		tipoDeVeiculo = pTipoDeVeiculo;
+		kmPorLitro = pKmPorLitro;
+		velocidade = pVelocidade;
+		valor = pValor;
 
-		if (quantidadeDePortas > 0 && quantidadeDeRodas > 0) {
-			materiais -= quantidadeDePortas;
-			materiais -= quantidadeDeRodas;
-			if (materiais <= 0) {
-				insuficiente = true;
-			}
-		}
+		veiculos.add("Marca: " + nomeDaMarca + "\nNome: " + nome + "\nTipo de Veículo: " + tipoDeVeiculo
+				+ "\nKM por litro de combustível: " + kmPorLitro + "\nVelocidade máxima: " + velocidade
+				+ "\nPreço sugerido: " + valor + "R$.");
 
-		if (insuficiente) {
-			veiculosEsquematizados.remove(Base.veiculoEmOrdem);
-			System.out.println("Erro! Materiais Insuficientes!");
-		} else {
-			veiculosConstruidos.add(Base.veiculoEmOrdem, veiculosEsquematizados.get(Base.veiculoEmOrdem));
-			System.out.println("Veículo construído com sucesso a partir do modelo esquematizado!");
-		}
+		boolean existeUmIgual = false;
 
-	}
-
-	public void solicitaMateriais(String material, int quantidade) {
-		if (quantidadeDeMateriaisDisponiveis < quantidade) {
-			System.out.println(
-					"Erro! A quantidade de materiais na distribuidora é insuficiente para satisfazer a requisição!");
-		} else {
-			quantidadeDeMateriaisDisponiveis -= quantidade;
-			materiais += quantidade;
-
-		}
-
-	}
-
-	public void distribuiVeiculos() {
-		int escolha = 1;
-		do {
-			getVeiculosConstruidos();
-			System.out.println(
-					"Digite o veículo que deseja distribuir através de seu número. (Digite 00 quando terminar):");
-			escolha = Integer.parseInt(scanner.nextLine());
-
-			if(escolha == 00) {
-				return;
-			}
-			
-			if(escolha >= veiculosConstruidos.size()) {
-				escolha = (veiculosConstruidos.size() - 1);
-			}
-
-			for (String veiculo : veiculosConstruidos) {
-				if (veiculosConstruidos.get(escolha) == veiculo) {
-					System.out.println("Veículo encontrado: " + veiculo);
+		if (veiculos.size() > 1) {
+			for (int i = 1; i < veiculos.size(); i++) {
+				if (veiculos.get(i).equals(veiculos.get(i - 1))) {
+					existeUmIgual = true;
 				}
 			}
+		}
 
-			concessionarias.put(marca, veiculosConstruidos.get(escolha));
+		if (!existeUmIgual) {
+			System.out.println("\nVeículo " + nome + " da marca " + nomeDaMarca + " criado com sucesso!");
+			System.out.println("\n" + veiculos.get(veiculos.size() - 1));
 
-		} while (escolha != 00);
+		} else {
+			System.out.println(
+					"\nErro! Um veículo semelhante já foi construido!\nO veículo " + nome + " não foi construído!");
+		}
+
 	}
 
-	public void getVeiculosConstruidos() {
-		int posicao = 1;
-		for (String veiculo : veiculosConstruidos) {
-			System.out.println(posicao + " - " + veiculo);
-			posicao++;
+	public void getVeiculos() {
+		if (veiculos.size() == 0) {
+			System.out.println("\nNão há mais veículos construídos!");
+		} else {
+			System.out.println("\nTodos os Veículos");
+			for (int i = 0; i < veiculos.size(); i++) {
+				System.out.println("\n" + (i + 1) + " - " + veiculos.get(i) + "\n");
+			}
 		}
 	}
 
+	public void enviaVeiculo() {
+		boolean existeUmIgual = false;
+
+		for (int i = 0; i < concessionarias.size(); i++) {
+			if (concessionarias.get(i).equals(veiculos.get(veiculos.size() - 1))) {
+				System.out.println(
+						"\nErro! Veículo " + nome + " da marca " + nomeDaMarca + " já existente na concessionária!");
+				existeUmIgual = true;
+				break;
+			}
+		}
+		if (!existeUmIgual) {
+			concessionarias.add(veiculos.get(veiculos.size() - 1));
+			veiculos.remove(veiculos.size() - 1);
+			System.out.println("\nVeículo enviado a concessionária.");
+		}
+	}
+
+	public void enviaVeiculosManualmente() {
+		int escolha = 0;
+		int posicao = 0;
+		do {
+			getVeiculos();
+			System.out.println(
+					"\nDigite o veículo que deseja enviar para a concessionária através de seu número.\n(Digite 0 quando terminar):");
+			escolha = Integer.parseInt(scanner.nextLine());
+			if (escolha > veiculos.size()) {
+				System.out.println("\nPosição inválida!");
+			}
+			if (escolha != 0) {
+				escolha -= 1;
+
+				boolean existeUmIgual = false;
+				for (int i = 0; i < concessionarias.size(); i++) {
+					if (concessionarias.get(i).equals(veiculos.get(escolha))) {
+						System.out.println("\nErro! Veículo já existente na concessionária!");
+						existeUmIgual = true;
+						break;
+					}
+				}
+
+				if (!existeUmIgual) {
+					System.out.println("\nVeículo encontrado: " + veiculos.get(escolha));
+					concessionarias.add(posicao, veiculos.get(escolha));
+					System.out.println(posicao);
+					veiculos.remove(escolha);
+				}
+				posicao++;
+				escolha = 1;
+			}else if(escolha != veiculos.size()) {
+				System.out.println("\nVeículo inexistente!");
+			}
+		} while (escolha != 0);
+	}
+
+	public void concessionaria() {
+		StringBuilder marca = new StringBuilder();
+		StringBuilder ultimoCaractere = new StringBuilder();
+
+		int contador = 0;
+		boolean completouMarca = false;
+		for (int i = (concessionarias.size() - 1); i >= 0; i--) {
+			for (int j = 7; j <= 100; j++) {
+				marca.append(concessionarias.get(i).charAt(j));
+				ultimoCaractere.append(marca.charAt(contador));
+
+				if (ultimoCaractere.charAt(ultimoCaractere.length() - 1) == nomeDaMarcaOriginal
+						.charAt(nomeDaMarcaOriginal.length() - 1) && marca.toString().equals(nomeDaMarcaOriginal)) {
+					completouMarca = true;
+					fimDoNomeDaMarca = j;
+					break;
+				}
+
+				ultimoCaractere.delete(0, ultimoCaractere.length());
+				contador++;
+			}
+			if (completouMarca) {
+				break;
+			}
+		}
+		marca.delete(0, marca.length());
+
+		System.out.println("\nConcessionária " + nomeDaMarcaOriginal);
+		int posicao = 1;
+
+		for (int i = 0; i < concessionarias.size(); i++) {
+			for (int j = 7; j <= fimDoNomeDaMarca; j++) {
+				marca.append(concessionarias.get(i).charAt(j));
+			}
+			if (marca.toString().equals(nomeDaMarcaOriginal)) {
+				System.out.println("\n" + posicao + " - " + concessionarias.get(i));
+				posicao++;
+			}
+			marca.delete(0, marca.length());
+		}
+
+	}
 }
