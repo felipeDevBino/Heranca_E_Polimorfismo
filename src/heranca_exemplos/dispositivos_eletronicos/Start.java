@@ -4,27 +4,18 @@ public class Start {
 
 	public static void main(String[] args) {
 		
-		Notebook acer = new Notebook();
-		acer.dispositivosEmQuestao("Acer", "Nitro 5");
-		acer.defineEspecificacoes(15, 5);
-			
-		Smartphone samsung = new Smartphone();
-		samsung.dispositivosEmQuestao("Samsung", "Galaxy S24");
-		samsung.defineEspecificacoes(6.7, 8);
+		Base note = new Notebook("Acer", "Nitro", "cabo e bateria", 14.2, 4);
+		Base smart = new Smartphone("Samsung", "Galaxy", "cabo e bateria", 8.2, 12);
+		Base tv = new Televisao("LG", "Flatron", "cabo", 20, 0);
+
+		note.ativaMetodoEspecial();
+		smart.ativaMetodoEspecial();
+		smart.ativaMetodoEspecial();
+		tv.ativaMetodoEspecial();
 		
-		System.out.println();
+		smart.getDispositivo("Galaxy", smart);
 		
-		samsung.imprimeInformacoes();
-		samsung.retornaFuncoesEspeciais(true, true, true, true, false);
-	
-		Televisao lg = new Televisao();
-		lg.dispositivosEmQuestao("LG", "Flatron");
-		lg.defineEspecificacoes(25, 00);
-		
-		System.out.println();
-		
-		lg.imprimeInformacoes();
-		lg.retornaAspectosProprios(true, true, true, true, true);
+		tv.getTodosDispositivos();
 		
 		Base.scanner.close();
 		
