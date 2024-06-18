@@ -19,7 +19,7 @@ public class Atual extends Passado {
 	}
 
 	private String textoHeranca() {
-		return "\nHerança perfeita da(s) característica(s): (" + caractrHerdadoAtual + ") entre as pessoas:\n"
+		return "Herança perfeita da(s) característica(s): (" + caractrHerdadoAtual + ") entre as pessoas:\n"
 				+ herancaDeSeres.toString();
 	}
 
