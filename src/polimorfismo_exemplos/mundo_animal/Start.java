@@ -7,7 +7,7 @@ public class Start {
         Lambari lambari = new Lambari();
         lambari.locomover();
         
-        Pintassilga pintassilga = new Pintassilga();
+        Pintassilgo pintassilga = new Pintassilgo();
         pintassilga.locomover();
         
     }
