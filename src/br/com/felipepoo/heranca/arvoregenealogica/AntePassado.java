@@ -8,7 +8,6 @@ import java.util.Random;
 public class AntePassado {
 
 	protected StringBuilder herancaDeSeres;
-	protected String[] caracteristicasHeranca;
 	
 	protected List<AntePassado> arvore;
 	
@@ -19,8 +18,6 @@ public class AntePassado {
 	protected String caracteristicas;
 	protected String doencas;
 
-	protected String raiz;
-	
 	public AntePassado(String nome, String personalidade, String caracteristicas) {
 		
 		this.nome = nome;
@@ -38,10 +35,6 @@ public class AntePassado {
 		
 	}
 
-	public void setRaiz(String pRaiz) {
-		raiz = pRaiz;
-	}
-
 	public void setCaracteristicas(String caracteristicas) {
 		this.caracteristicas = caracteristicas;
 	}
@@ -50,30 +43,35 @@ public class AntePassado {
 		return caracteristicas;
 	}
 	
-	public String getCaractrAntepassado() {
-		return caractrAntepassado;
-	}
-
 	public void mostrarSer() {
 		
 		StringBuilder msg = new StringBuilder();
 		
+		//compila características comuns a todos
 		msg.append("Nome: ").append(this.nome).append("\n");
 		msg.append("Personalidade: ").append(this.personalidade).append("\n");
 		msg.append("Características: ").append(this.caracteristicas.replace(";", ", ")).append("\n");
 		
+		//compila características herdadas
 		String caracHerdadas = randomizaCaracteristicaArvore();
 		
 		if( !caracHerdadas.isEmpty() ) {
 			msg.append("Caracteristicas Herdadas: ").append( randomizaCaracteristicaArvore() ).append("\n");
 		}
 		
+		String hereditariedade = getHerancaPerfeita();
+		
+		if( !hereditariedade.isEmpty() ) {
+			msg.append("Hereditariedade Confirmada:").append(hereditariedade).append("\n");
+		}
+		
+		//compila doenças
 		if( !this.doencas.isEmpty() ) {
 			msg.append("Doenças: ").append(this.doencas).append("\n");
 		}
 		
 		System.out.println(msg.toString());
-		System.out.println("_________________________________________");
+		System.out.println("__________________________________________________");
 		
 	}
 
@@ -87,20 +85,63 @@ public class AntePassado {
 	
 	protected String randomizaCaracteristicaArvore() {
 		
+		//agrupa todas as características da arvore genealógica
 		List<String> caracGeral = new ArrayList<>();
 		
 		for(AntePassado a : arvore) {
 			caracGeral.addAll( Arrays.asList( a.getCaracteristicas().split(";") ) );
 		}
 		
+		//só continua se existirem características
 		if( caracGeral.isEmpty() ) {
 			return "";
 		}
 		
+		StringBuilder sb = new StringBuilder();
 		Random random = new Random();
-		int randomizar = random.nextInt(0, caracGeral.size());
 		
-		return caracGeral.get(randomizar); 
+		//sorteia a quantidade de características que serão herdadas
+		//e quais serão herdadas
+		int totalHerancas = random.nextInt(0, caracGeral.size());
+		
+		for(int i=0; i<totalHerancas; i++) {
+			int indiceCaracSorteada = random.nextInt(0, caracGeral.size());
+			String caracHerdada = caracGeral.get(indiceCaracSorteada);
+			sb.append(caracHerdada).append(" ");
+		}
+		
+		return sb.toString();
+		
+	}
+	
+	public String getHerancaPerfeita() {
+		
+		StringBuilder sbCarac = new StringBuilder();
+		
+		List<String> caracList = new ArrayList<>();
+		
+		for(AntePassado a : arvore) {
+			String[] caracSer = a.getCaracteristicas().split(";");
+			caracList.addAll(Arrays.asList(caracSer));
+		}
+		
+		for(int i=0; i<caracList.size(); i++) {
+			
+			int contagemCaracArvore = 0;
+			
+			for(int j=0; j<caracList.size(); j++) {
+				if( caracList.get(i).equals( caracList.get(j) ) ) {
+					contagemCaracArvore++;
+				}
+			}
+			
+			if( contagemCaracArvore == arvore.size() ) {
+				sbCarac.append(caracList.get(i));
+			}
+			
+		}
+		
+		return sbCarac.toString();
 		
 	}
 

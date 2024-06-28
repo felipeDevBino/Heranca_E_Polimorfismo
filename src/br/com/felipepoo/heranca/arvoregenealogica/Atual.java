@@ -34,11 +34,4 @@ public class Atual extends Passado {
 		}
 	}
 
-	@Override
-	public void setRaiz(String raiz) {
-		raiz = "Atual";
-		super.setRaiz(raiz);
-	}
-	
-
 }
