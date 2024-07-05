@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 /**
  * TODO FELIPE - Perguntar sobre classes abstratas 
- * Oportunidade para falar sobre classes abstratas
+ * Oportunidade para falar sobre o assunto
  */
 public abstract class Dispositivo {
 
